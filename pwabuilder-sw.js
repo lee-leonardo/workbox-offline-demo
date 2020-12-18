@@ -60,17 +60,22 @@ registerRoute(
 
 /* 
   Custom Handler Example
+  - matcher, the check that determines if you are 
+  - strategy, the 
 
-  matcher, the check to see which 
+  Extending the Strategy is most likely  overkill, the demonstration here is that you theoretically can.
+  If you are desiring to add some state level mechanisms to your cache, extending makes this simpler, however it is much easier to use the plugins to accomplish most tasks.
+
+  Custom Plugins have a few components to address
+  - matcher, the check to see which 
+  - strategy, an object that handles the network request and high level logic
+    - cacheName: the name of the cache being used
+    - plugins, an entry point for modifying the behavior of a strategy, for instance the keys of within the cache, default objects, etc.
+  - method, if you want to scope this to only "GET" requests, ad nauseum.
 */
 class OneApiStrategy extends CacheFirst {
   handle({event, request}) {
     super.handle({ event, request })
-
-  }
-
-  _handle(request, handler) {
-
   }
 }
 
