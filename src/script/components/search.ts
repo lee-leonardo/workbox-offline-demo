@@ -7,11 +7,17 @@ import '@material/mwc-list/mwc-check-list-item'
 export class AppSearch extends LitElement {
 
   @property({type: String}) searchString: string = "";
-  @property({type: String}) menuOption: string = "Books";
+  @property({type: Number}) selectedMenuOptionIndex: number = 0;
   @property({type: String}) apiKey: string = "";
 
-  @query("#menu-button") menuButton: HTMLElement | undefined;
-  @query("#menu") menu: HTMLElement | undefined;
+  @query("#menu-button") menuButton: HTMLButtonElement | undefined;
+  @query("#menu") menu: HTMLSelectElement | undefined;
+  @query("#apiText") apiTextField: HTMLInputElement | undefined;
+  @query("#searchText") searchTextField: HTMLInputElement | undefined;
+  @query("#searchButton") searchButton: HTMLButtonElement | undefined;
+
+  apiItems = ["Books", "Chapters", "Characters"];
+  searchDisabled = false;
 
   static get styles() {
     return css`
@@ -38,20 +44,62 @@ export class AppSearch extends LitElement {
     (this.menu as any).open = true
   }
 
+  menuChange(event: CustomEvent) {
+    this.selectedMenuOptionIndex = event.detail.index;
+  }
+
+  apiTextChange() {
+    console.log(this.apiTextField?.value ?? this.apiKey)
+    this.apiKey = this.apiTextField?.value ?? this.apiKey
+  }
+
+  checkSearch(event: CustomEvent) {
+    console.log(event)
+    const requiresKey = this.selectedMenuOptionIndex > 0;
+    const checkHasKey = (this.apiKey === "");
+
+    this.searchButton!.disabled = requiresKey ? checkHasKey : false;
+  }
+
+  search() {
+    console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
+  }
+
   render() {
     return html`
-      <section id="search-bar">
-        <mwc-button id="menu-button" raised label="${this.menuOption}" @click=${this.clickButton}></mwc-button>
-        <mwc-menu id="menu" fixed raised activatable>
-          <mwc-list-item></mwc-list-item>
-
-          <li divider role="separator"></li>
-          <mwc-list-item group="search">Books</mwc-list-item>
-          <mwc-list-item group="search">Chapters</mwc-list-item>
-          <mwc-list-item group="search">Characters</mwc-list-item>
+      <section id="search-bar" @change=${this.checkSearch} @selected=${this.checkSearch}>
+        <mwc-button
+          id="menu-button"
+          label="${this.apiItems[this.selectedMenuOptionIndex]}" 
+          raised
+          @click=${this.clickButton}
+          >
+        </mwc-button>
+        <mwc-menu id="menu" fixed raised activatable @selected=${this.menuChange}>
+          ${this.apiItems.map((name) => {
+            return html`
+              <mwc-list-item group="search">${name}</mwc-list-item>
+            `
+          })}
         </mwc-menu>
-        <fast-text-field></fast-text-field>
-        <fast-button>Search</fast-button>
+        ${this.selectedMenuOptionIndex > 0 ? html`
+            <fast-text-field
+              id="apiText"
+              @change=${this.apiTextChange}
+              value=${this.apiKey}
+              placeholder="API Key"
+
+            ></fast-text-field>
+          ` : undefined
+        }
+        <fast-text-field
+          id="searchText"
+          placeholder="Search..."
+        ></fast-text-field>
+        <fast-button
+          id="searchButton"
+          disabled=${this.searchDisabled}
+          @click="${this.search}">Search</fast-button>
       </section>
     `
   }
