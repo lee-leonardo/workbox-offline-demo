@@ -65,6 +65,8 @@ export class AppSearch extends LitElement {
   }
 
   async search() {
+    let event: CustomEvent;
+
     try {
       console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
       const endpoint = (["book", "chapter", "character"])[this.selectedMenuOptionIndex];
@@ -78,18 +80,23 @@ export class AppSearch extends LitElement {
         headers,
       }) as Partial<toaResponse>;
 
-      console.log(response);
-
-      const event = new CustomEvent("search-complete", {
+      event = new CustomEvent("search-complete", {
         detail: {
-          response
+          response,
+          success: true,
         }
       })
-      this.dispatchEvent(event);
     }
     catch (error) {
       console.log(error);
+      event = new CustomEvent("search-complete", {
+        detail: {
+          success: false,
+        }
+      })
     }
+
+    this.dispatchEvent(event);
   }
 
   render() {
