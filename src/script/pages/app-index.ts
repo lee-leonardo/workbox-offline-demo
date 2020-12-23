@@ -5,8 +5,6 @@ import './app-home';
 import { Router } from '@vaadin/router';
 
 import '../components/header';
-import '../components/search';
-
 
 @customElement('app-index')
 export class AppIndex extends LitElement {
@@ -84,7 +82,6 @@ export class AppIndex extends LitElement {
     return html`
       <div>
         <app-header></app-header>
-        <app-search></app-search>
       
         <main>
           <div id="routerOutlet"></div>
