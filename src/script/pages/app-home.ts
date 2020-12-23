@@ -3,13 +3,20 @@ import { LitElement, css, html, customElement, property } from 'lit-element';
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
 import '../components/search';
+import { toaResponse } from '../api';
+
+interface SearchEvent {
+  success: boolean;
+  mode?: "book" | "character" | "chapter";
+  response?: toaResponse;
+}
 
 @customElement('app-home')
 export class AppHome extends LitElement {
 
   // For more information on using properties in lit-element
   // check out this link https://lit-element.polymer-project.org/guide/properties#declare-with-decorators
-  @property() message: string = "Welcome!";
+  @property({ type: Object }) response: undefined | SearchEvent;
 
   static get styles() {
     return css`
@@ -24,7 +31,7 @@ export class AppHome extends LitElement {
         margin-bottom: 12px;
       }
 
-      #welcomeCard, #infoCard {
+      #welcomeCard, .infoCard {
         padding: 18px;
         padding-top: 0px;
       }
@@ -40,7 +47,7 @@ export class AppHome extends LitElement {
       }
 
       @media(min-width: 1200px) {
-        #welcomeCard, #infoCard {
+        #welcomeCard, .infoCard {
           width: 40%;
         }
       }
@@ -79,26 +86,40 @@ export class AppHome extends LitElement {
     }
   }
 
+  handleSearch(event: CustomEvent<SearchEvent>) {
+    this.response = event.detail
+  }
+
   render() {
     return html`
-      <div>
+      <div @search-complete=${this.handleSearch}>
         <app-search></app-search>
       
         <div id="welcomeBar">
-          <fast-card id="welcomeCard">
-      
-            <h2>${this.message}</h2>
-
-          </fast-card>
-
-          <fast-card id="infoCard">
-
-          </fast-card>
-
+          ${(this.response ? this.renderResultsList() : this.renderWelcomeCard())}
         </div>
       
         <pwa-install>Install PWA Starter</pwa-install>
       </div>
     `;
+  }
+
+  renderWelcomeCard() {
+    return html`
+      <fast-card id="welcomeCard">
+
+        <h2>The One Api Working Demo</h2>
+
+        <p>This demo utilizes the one api demo, which has a <a href="https://github.com/gitfrosh/lotr-api">github page</a> as well as a <a href="https://the-one-api.dev/">documentation here.</a></p>
+
+      </fast-card>
+    `
+  }
+
+  renderResultsList() {
+    var a = this.response?.mode;
+
+    //TODO abstrated template code returned here
+    return html``
   }
 }
