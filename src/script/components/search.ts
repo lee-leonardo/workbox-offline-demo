@@ -3,12 +3,14 @@ import '@material/mwc-button'
 import '@material/mwc-menu'
 import '@material/mwc-list/mwc-check-list-item'
 
+import { toaResponse } from "../api"
+
 @customElement('app-search')
 export class AppSearch extends LitElement {
 
   @property({type: String}) searchString: string = "";
   @property({type: Number}) selectedMenuOptionIndex: number = 0;
-  @property({type: String}) apiKey: string = "";
+  @property({type: String}) apiKey: string | undefined;
 
   @query("#menu-button") menuButton: HTMLButtonElement | undefined;
   @query("#menu") menu: HTMLSelectElement | undefined;
@@ -26,6 +28,7 @@ export class AppSearch extends LitElement {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-bottom: 12px;
     }
 
     #search-bar > * {
@@ -61,8 +64,32 @@ export class AppSearch extends LitElement {
     this.searchButton!.disabled = requiresKey ? checkHasKey : false;
   }
 
-  search() {
-    console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
+  async search() {
+    try {
+      console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
+      const endpoint = (["book", "chapter", "character"])[this.selectedMenuOptionIndex];
+      const headers = new Headers();
+
+      if (this.apiKey) {
+        headers.set("Authorization", `Bearer ${this.apiKey}`)
+      }
+
+      const response = await fetch(`https://the-one-api.dev/v2/${endpoint}`, {
+        headers,
+      }) as Partial<toaResponse>;
+
+      console.log(response);
+
+      const event = new CustomEvent("search-complete", {
+        detail: {
+          response
+        }
+      })
+      this.dispatchEvent(event);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -86,7 +113,7 @@ export class AppSearch extends LitElement {
             <fast-text-field
               id="apiText"
               @change=${this.apiTextChange}
-              value=${this.apiKey}
+              value=${this.apiKey ?? ""}
               placeholder="API Key"
 
             ></fast-text-field>
