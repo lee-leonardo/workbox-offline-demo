@@ -3,7 +3,7 @@ import '@material/mwc-button'
 import '@material/mwc-menu'
 import '@material/mwc-list/mwc-check-list-item'
 
-import { toaResponse } from "../api"
+import { apiEndpoints, apiMenuItems, toaResponse } from "../api"
 
 @customElement('app-search')
 export class AppSearch extends LitElement {
@@ -18,7 +18,7 @@ export class AppSearch extends LitElement {
   @query("#searchText") searchTextField: HTMLInputElement | undefined;
   @query("#searchButton") searchButton: HTMLButtonElement | undefined;
 
-  apiItems = ["Books", "Chapters", "Characters"];
+  apiItems = apiMenuItems;
   searchDisabled = false;
 
   static get styles() {
@@ -69,7 +69,7 @@ export class AppSearch extends LitElement {
 
     try {
       console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
-      const endpoint = (["book", "chapter", "character"])[this.selectedMenuOptionIndex];
+      const endpoint = apiEndpoints[this.selectedMenuOptionIndex];
       const headers = new Headers();
 
       if (this.apiKey) {
@@ -82,6 +82,7 @@ export class AppSearch extends LitElement {
 
       event = new CustomEvent("search-complete", {
         detail: {
+          mode: endpoint,
           response,
           success: true,
         }
