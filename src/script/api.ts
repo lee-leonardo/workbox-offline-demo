@@ -36,7 +36,7 @@ export interface MovieResponse extends ApiResponse {
   docs: Array<MovieItem>
 }
 
-export interface ChapterItem {
+export interface ChapterItem extends DocItem {
   chapterName: string;
   book: hash;
 }
@@ -45,7 +45,7 @@ export interface ChapterResponse extends ApiResponse {
   docs: Array<ChapterResponse>;
 }
 
-export interface CharacterItem {
+export interface CharacterItem extends DocItem {
   height: string;
   race: string;
   gender: "Male" | "Female" | "";
