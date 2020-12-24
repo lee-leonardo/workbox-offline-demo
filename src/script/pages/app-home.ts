@@ -1,9 +1,9 @@
-import { LitElement, css, html, customElement, property } from 'lit-element';
+import { LitElement, css, html, customElement, property, TemplateResult } from 'lit-element';
 
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
 import '../components/search';
-import { toaResponse } from '../api';
+import { BookItem, ChapterItem, CharacterItem, DocItem, toaResponse } from '../api';
 
 interface SearchEvent {
   success: boolean;
@@ -117,9 +117,46 @@ export class AppHome extends LitElement {
   }
 
   renderResultsList() {
-    var a = this.response?.mode;
+    const mode = this.response?.mode;
+    let cb: (doc: any) => TemplateResult;
 
-    //TODO abstrated template code returned here
-    return html``
+    if (mode === "book") {
+      cb = (doc) => {
+        const info = doc as BookItem
+        return html`
+          <fast-card id=${info._id}>
+            <h2>${info.name}</h2>
+          </fast-card>
+        `
+      }
+    } else if (mode === "chapter") {
+      cb = (doc) => {
+        const info = doc as ChapterItem
+        return html`
+          <fast-card id=${info._id}>
+            <h2>${info.chapterName}</h2>
+          </fast-card>
+        `
+      }
+    } else if (mode === "character") {
+      cb = (doc) => {
+        const info = doc as CharacterItem
+        return html`
+          <fast-card id=${info._id}>
+            <h2>${info.name}</h2>
+          </fast-card>
+        `
+      }
+    } else {
+      // error case html
+      return html`
+        <fast-card id="error">
+          <h2>Oops something happened</h2>
+          <p>Either the api calls limit has been exceeded or that the service is down.</p>
+        </fast-card>
+      `
+    }
+
+    return this.response?.response?.docs.map(cb);
   }
 }
