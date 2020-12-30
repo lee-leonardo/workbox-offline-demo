@@ -3,12 +3,12 @@ import { LitElement, css, html, customElement, property, TemplateResult } from '
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
 import '../components/search';
-import { BookItem, ChapterItem, CharacterItem, DocItem, toaResponse } from '../api';
+import { BookItem, ChapterItem, CharacterItem, DocItem, ItemUnion, MovieItem, ResponseUnion } from '../api';
 
 interface SearchEvent {
   success: boolean;
   mode?: "book" | "character" | "chapter";
-  response?: toaResponse;
+  response?: ResponseUnion;
 }
 
 @customElement('app-home')
@@ -94,11 +94,11 @@ export class AppHome extends LitElement {
     return html`
       <div @search-complete=${this.handleSearch}>
         <app-search></app-search>
-      
+
         <div id="welcomeBar">
           ${(this.response ? this.renderResultsList() : this.renderWelcomeCard())}
         </div>
-      
+
         <pwa-install>Install PWA Starter</pwa-install>
       </div>
     `;
@@ -118,7 +118,7 @@ export class AppHome extends LitElement {
 
   renderResultsList() {
     const mode = this.response?.mode;
-    let cb: (doc: any) => TemplateResult;
+    let cb: (doc: ItemUnion) => TemplateResult;
 
     if (mode === "book") {
       cb = (doc) => {
@@ -157,6 +157,7 @@ export class AppHome extends LitElement {
       `
     }
 
-    return this.response?.response?.docs.map(cb);
+    const result = this.response?.response?.docs as Array<ItemUnion>
+    return result.map(cb);
   }
 }
