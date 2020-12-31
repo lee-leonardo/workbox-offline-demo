@@ -42,7 +42,7 @@ export interface ChapterItem extends DocItem {
 }
 
 export interface ChapterResponse extends ApiResponse {
-  docs: Array<ChapterResponse>;
+  docs: Array<ChapterItem>;
 }
 
 export interface CharacterItem extends DocItem {
@@ -59,10 +59,10 @@ export interface CharacterItem extends DocItem {
 }
 
 export interface CharacterResponse extends ApiResponse {
-  docs: Array<CharacterResponse>;
+  docs: Array<CharacterItem>;
 }
 
-
-export type toaResponse = BookResponse | MovieResponse | ChapterResponse | CharacterResponse
+export type ItemUnion = BookItem | MovieItem | ChapterItem | CharacterItem;
+export type ResponseUnion = BookResponse | MovieResponse | ChapterResponse | CharacterResponse;
 export const apiEndpoints = ["book", "chapter", "character"]
 export const apiMenuItems = apiEndpoints.map(endpoint => endpoint.charAt(0).toLocaleUpperCase() + endpoint.substr(1))
