@@ -1,6 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
-import { generateSW, injectManifest } from "rollup-plugin-workbox";
+import { generateSW } from "rollup-plugin-workbox";
 import html from "@open-wc/rollup-plugin-html";
 // import strip from '@rollup/plugin-strip';
 import copy from "rollup-plugin-copy";
@@ -49,9 +50,9 @@ export default [
   // https://github.com/jeffposnick/jeffposnick.github.io/blob/active/rollup.config.js
   // https://github.com/GoogleChromeLabs/so-pwa/blob/master/rollup.config.js
   {
-    input: "pwbuilder-sw.js",
+    input: "pwabuilder-sw.ts",
     output: {
-      file: "dist/pwabuilder-sw-upgraded.js",
+      dir: "dist",
       format: "amd",
     },
     manualChunks: (id) => {
@@ -59,7 +60,7 @@ export default [
         return undefined;
       }
 
-      // files
+      // files to manually chunk in.
       const chunkNames = ["workbox", "lit-html", "html-escaper", "regexparam"];
       return chunkNames.find((chunkName) => id.includes(chunkName) || "misc");
     },
@@ -73,9 +74,10 @@ export default [
           process.env.NODE_ENV || "development"
         ),
       }),
-      typescript(),
+      typescript({
+        outDir: "dist",
+      }),
       OMT(),
-      compiler(),
       workboxInjectManifest({
         // injectionPoint: "", // if you need to customize precache string which default is: self.__WB_MANIFEST
         // use the getManifest api not the inject manifest one https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.getManifest
@@ -89,6 +91,7 @@ export default [
           "*.json",
         ],
       }),
+      // compiler(), // @ampproject/rollup-plugin-closure-compiler has superior minification ability to terser, but that's another import
       terser(),
     ],
   },
