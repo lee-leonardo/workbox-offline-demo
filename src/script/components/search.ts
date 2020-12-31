@@ -3,7 +3,7 @@ import '@material/mwc-button'
 import '@material/mwc-menu'
 import '@material/mwc-list/mwc-check-list-item'
 
-import { apiEndpoints, apiMenuItems, toaResponse } from "../api"
+import { apiEndpoints, apiMenuItems, ResponseUnion } from "../api"
 
 @customElement('app-search')
 export class AppSearch extends LitElement {
@@ -78,7 +78,7 @@ export class AppSearch extends LitElement {
 
       const response = await fetch(`https://the-one-api.dev/v2/${endpoint}`, {
         headers,
-      }) as Partial<toaResponse>;
+      }) as Partial<ResponseUnion>;
 
       event = new CustomEvent("search-complete", {
         detail: {
@@ -105,7 +105,7 @@ export class AppSearch extends LitElement {
       <section id="search-bar" @change=${this.checkSearch} @selected=${this.checkSearch}>
         <mwc-button
           id="menu-button"
-          label="${this.apiItems[this.selectedMenuOptionIndex]}" 
+          label="${this.apiItems[this.selectedMenuOptionIndex]}"
           raised
           @click=${this.clickButton}
           >
