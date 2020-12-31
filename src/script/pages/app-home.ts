@@ -3,7 +3,7 @@ import { LitElement, css, html, customElement, property, TemplateResult } from '
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
 import '../components/search';
-import { BookItem, ChapterItem, CharacterItem, DocItem, ItemUnion, MovieItem, ResponseUnion } from '../api';
+import { BookItem, ChapterItem, CharacterItem, ItemUnion, ResponseUnion } from '../api';
 
 interface SearchEvent {
   success: boolean;

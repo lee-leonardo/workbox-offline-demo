@@ -22,26 +22,26 @@ export class AppIndex extends LitElement {
       #routerOutlet > .leaving {
         animation: 160ms fadeOut ease-in-out;
       }
-    
+
       #routerOutlet > .entering {
         animation: 160ms fadeIn linear;
       }
-    
+
       @keyframes fadeOut {
         from {
           opacity: 1;
         }
-    
+
         to {
           opacity: 0;
         }
       }
-    
+
       @keyframes fadeIn {
         from {
           opacity: 0.2;
         }
-    
+
         to {
           opacity: 1;
         }
@@ -65,14 +65,7 @@ export class AppIndex extends LitElement {
         path: "",
         animate: true,
         children: [
-          { path: '/', component: 'app-home' },
-          {
-            path: "/about",
-            component: "app-about",
-            action: async () => {
-              await import('./app-about.js');
-            },
-          }
+          { path: '/', component: 'app-home' }
         ]
       } as any)
     ]);
@@ -82,7 +75,7 @@ export class AppIndex extends LitElement {
     return html`
       <div>
         <app-header></app-header>
-      
+
         <main>
           <div id="routerOutlet"></div>
         </main>
