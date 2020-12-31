@@ -87,7 +87,10 @@ export class AppHome extends LitElement {
   }
 
   handleSearch(event: CustomEvent<SearchEvent>) {
+    console.log("app-home handleSearch()");
+
     this.response = event.detail
+    this.requestUpdate()
   }
 
   render() {

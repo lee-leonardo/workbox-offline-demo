@@ -81,6 +81,8 @@ export class AppSearch extends LitElement {
       }) as Partial<ResponseUnion>;
 
       event = new CustomEvent("search-complete", {
+        bubbles: true,
+        composed: true,
         detail: {
           mode: endpoint,
           response,
@@ -91,12 +93,15 @@ export class AppSearch extends LitElement {
     catch (error) {
       console.log(error);
       event = new CustomEvent("search-complete", {
+        bubbles: true,
+        composed: true,
         detail: {
           success: false,
         }
       })
     }
 
+    console.log("dispatching", event);
     this.dispatchEvent(event);
   }
 
