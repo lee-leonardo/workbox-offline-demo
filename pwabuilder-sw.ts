@@ -1,3 +1,5 @@
+declare const self: ServiceWorkerGlobalScope;
+
 /*
   Caching with Predefined Caching Strategies
 */
@@ -8,7 +10,6 @@ import {
   CacheFirst
 } from 'workbox-strategies'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
-import {ExpirationPlugin} from 'worbox-expiration'
 
 /*
   registerRoute's callback version's context.
@@ -49,34 +50,33 @@ registerRoute(
     plugins: [
       new CacheableResponsePlugin({
         statuses: [200]
-      }),
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 60 * 60 * 24 * 30 // cached for 30 days.
       })
     ]
   })
 )
 
-/* 
+/*
   Custom Handler Example
-  - matcher, the check that determines if you are 
-  - strategy, the 
+  - matcher, the check that determines if you are
+  - strategy, the
 
   Extending the Strategy is most likely  overkill, the demonstration here is that you theoretically can.
   If you are desiring to add some state level mechanisms to your cache, extending makes this simpler, however it is much easier to use the plugins to accomplish most tasks.
 
   Custom Plugins have a few components to address
-  - matcher, the check to see which 
+  - matcher, the check to see which
   - strategy, an object that handles the network request and high level logic
     - cacheName: the name of the cache being used
     - plugins, an entry point for modifying the behavior of a strategy, for instance the keys of within the cache, default objects, etc.
   - method, if you want to scope this to only "GET" requests, ad nauseum.
 */
+// Can Override Here
 class OneApiStrategy extends CacheFirst {
-  handle({event, request}) {
-    super.handle({ event, request })
-  }
+  // handle(options) {
+
+  // }
+
+  
 }
 
 registerRoute(
@@ -102,9 +102,9 @@ registerRoute(
 /*
   Precache
 */
-// import { precacheAndRoute } from 'workbox-precaching'
+import { precacheAndRoute } from 'workbox-precaching'
 
-// precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
