@@ -76,9 +76,10 @@ export class AppSearch extends LitElement {
         headers.set("Authorization", `Bearer ${this.apiKey}`)
       }
 
-      const response = await fetch(`https://the-one-api.dev/v2/${endpoint}`, {
+      const apiResponse = await fetch(`https://the-one-api.dev/v2/${endpoint}`, {
         headers,
-      }) as Partial<ResponseUnion>;
+      });
+      const response = await apiResponse.json() as Partial<ResponseUnion>;
 
       event = new CustomEvent("search-complete", {
         bubbles: true,
