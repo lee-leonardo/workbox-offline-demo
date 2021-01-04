@@ -70,12 +70,6 @@ export class AppHome extends LitElement {
     super();
   }
 
-  firstUpdated() {
-    // this method is a lifecycle even in lit-element
-    // for more info check out the lit-element docs https://lit-element.polymer-project.org/guide/lifecycle
-    console.log('This is your home page');
-  }
-
   share() {
     if ((navigator as any).share) {
       (navigator as any).share({
@@ -87,7 +81,6 @@ export class AppHome extends LitElement {
   }
 
   handleSearch(event: CustomEvent<SearchEvent>) {
-    console.log("app-home handleSearch()");
 
     this.response = event.detail
     this.requestUpdate()

@@ -51,24 +51,20 @@ export class AppSearch extends LitElement {
     this.selectedMenuOptionIndex = event.detail.index;
   }
 
-  apiTextChange() {
-    console.log(this.apiTextField?.value ?? this.apiKey)
-    this.apiKey = this.apiTextField?.value ?? this.apiKey
-  }
-
   checkSearch(event: CustomEvent) {
-    console.log(event)
     const requiresKey = this.selectedMenuOptionIndex > 0;
+    this.apiKey = this.apiTextField?.value ?? this.apiKey
+
     const checkHasKey = (this.apiKey === "");
 
     this.searchButton!.disabled = requiresKey ? checkHasKey : false;
+    this.requestUpdate();
   }
 
   async search() {
     let event: CustomEvent;
 
     try {
-      console.log("searching", this.apiTextField?.value, this.searchTextField?.value);
       const endpoint = apiEndpoints[this.selectedMenuOptionIndex];
       const headers = new Headers();
 
@@ -102,7 +98,6 @@ export class AppSearch extends LitElement {
       })
     }
 
-    console.log("dispatching", event);
     this.dispatchEvent(event);
   }
 
@@ -126,7 +121,7 @@ export class AppSearch extends LitElement {
         ${this.selectedMenuOptionIndex > 0 ? html`
             <fast-text-field
               id="apiText"
-              @change=${this.apiTextChange}
+              @change=${this.checkSearch}
               value=${this.apiKey ?? ""}
               placeholder="API Key"
 
