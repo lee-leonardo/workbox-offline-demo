@@ -51,7 +51,7 @@ export class AppSearch extends LitElement {
     this.selectedMenuOptionIndex = event.detail.index;
   }
 
-  checkSearch(event: CustomEvent) {
+  checkSearch() {
     const requiresKey = this.selectedMenuOptionIndex > 0;
     this.apiKey = this.apiTextField?.value ?? this.apiKey
 
