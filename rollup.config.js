@@ -13,7 +13,7 @@ export default [
   {
     input: "index.html",
     output: {
-      dir: "dist",
+      dir: "docs",
       format: "es",
     },
     plugins: [
@@ -25,15 +25,15 @@ export default [
       // }),
       copy({
         targets: [
-          { src: "assets/**/*", dest: "dist/assets/" },
-          { src: "styles/global.css", dest: "dist/styles/" },
-          { src: "manifest.json", dest: "dist/" },
+          { src: "assets/**/*", dest: "docs/assets/" },
+          { src: "styles/global.css", dest: "docs/styles/" },
+          { src: "manifest.json", dest: "docs/" },
         ],
       }),
       // Let Workbox do the heavy lifting.
       generateSW({
-        swDest: "dist/pwabuilder-sw-generated.js",
-        globDirectory: "dist/",
+        swDest: "docs/pwabuilder-sw-generated.js",
+        globDirectory: "docs/",
         globPatterns: [
           "styles/*.css",
           "**/*/*.svg",
@@ -52,7 +52,7 @@ export default [
   {
     input: "pwabuilder-sw.ts",
     output: {
-      dir: "dist",
+      dir: "docs",
       format: "amd",
     },
     manualChunks: (id) => {
@@ -75,13 +75,13 @@ export default [
         ),
       }),
       typescript({
-        outDir: "dist",
+        outDir: "docs",
       }),
       OMT(),
       workboxInjectManifest({
         // injectionPoint: "", // if you need to customize precache string which default is: self.__WB_MANIFEST
         // use the getManifest api not the inject manifest one https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.getManifest
-        globDirectory: "dist/",
+        globDirectory: "docs/",
         globPatterns: [
           "styles/*.css",
           "**/*/*.svg",
