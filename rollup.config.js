@@ -40,6 +40,10 @@ export default [
           return html;
         },
       }),
+      replace({
+        'manifestpath="manifest.json"':
+          'manifestpath="workbox-offline-demo/manifest.json"',
+      }),
       terser(),
       // strip({
       //   functions: ['console.log']
@@ -76,7 +80,7 @@ export default [
       resolve(),
       html({
         transform: (html) => {
-          const path = `${packageJson.name}`;
+          const path = `${packageJson.name}/`;
           const strings = [
             ["docs/", path],
             ["build/src/pages", path],

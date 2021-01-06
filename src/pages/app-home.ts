@@ -95,7 +95,7 @@ export class AppHome extends LitElement {
           ${(this.response ? this.renderResultsList() : this.renderWelcomeCard())}
         </div>
 
-        <pwa-install>Install PWA Starter</pwa-install>
+        <pwa-install manifestpath="manifest.json">Install PWA Starter</pwa-install>
       </div>
     `;
   }
