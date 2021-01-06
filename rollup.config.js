@@ -26,7 +26,8 @@ export default [
             ["docs/", path],
             ["build/src/pages/", path],
             ["./", path],
-            ['swpath="pwabuilder', `swpath="workbox-offline-demo/pwabuilder`],
+            ['swpath="docs', `swpath="workbox-offline-demo`],
+            ['href="manifest.json', `href="workbox-offline-demo/manifest.json`],
           ];
 
           for (let i = 0; i < strings.length; i++) {
@@ -77,10 +78,11 @@ export default [
         transform: (html) => {
           const path = `${packageJson.name}`;
           const strings = [
-            ["docs", path],
+            ["docs/", path],
             ["build/src/pages", path],
             ["./", path],
             ['swpath="pwabuilder', `swpath="workbox-offline-demo/pwabuilder`],
+            ['href="manifest.json', `href="workbox-offline-demo/manifest.json`],
           ];
 
           for (let i = 0; i < strings.length; i++) {
