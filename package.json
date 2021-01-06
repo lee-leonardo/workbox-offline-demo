@@ -1,11 +1,11 @@
 {
-  "name": "pwa-starter",
+  "name": "workbox-offline-demo",
   "version": "0.0.1",
   "description": "A starter kit for building PWAs!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf build/ && rimraf docs/ && tsc && rollup -c && node copyHtml.js",
+    "build": "rimraf build/ && rimraf docs/ && tsc && rollup -c",
     "build:watch": "tsc --watch",
     "build:dev": "tsc",
     "start": "concurrently \"tsc --watch\" \"web-dev-server --app-index index.html --compatibility none --node-resolve --watch --open\"",
