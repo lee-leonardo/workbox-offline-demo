@@ -1,3 +1,4 @@
+import * as packageJson from "./package.json";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
@@ -18,7 +19,24 @@ export default [
     },
     plugins: [
       resolve(),
-      html(),
+      html({
+        transform: (html) => {
+          const path = `${packageJson.name}`;
+          const strings = [
+            ["docs", path],
+            ["build/src/pages", path],
+          ];
+
+          for (let i = 0; i < strings.length; i++) {
+            const [key, to] = strings[i];
+            while (html.indexOf(key) !== -1) {
+              html = html.replace(key, to);
+            }
+          }
+
+          return html;
+        },
+      }),
       terser(),
       // strip({
       //   functions: ['console.log']
@@ -42,6 +60,34 @@ export default [
           "assets/**",
           "*.json",
         ],
+      }),
+    ],
+  },
+  {
+    input: "advanced.html",
+    output: {
+      dir: "docs",
+      format: "es",
+    },
+    plugins: [
+      resolve(),
+      html({
+        transform: (html) => {
+          const path = `${packageJson.name}`;
+          const strings = [
+            ["docs", path],
+            ["build/src/pages", path],
+          ];
+
+          for (let i = 0; i < strings.length; i++) {
+            const [key, to] = strings[i];
+            while (html.indexOf(key) !== -1) {
+              html = html.replace(key, to);
+            }
+          }
+
+          return html;
+        },
       }),
     ],
   },
