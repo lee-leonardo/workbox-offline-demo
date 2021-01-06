@@ -18,6 +18,8 @@ export class AppHome extends LitElement {
   // check out this link https://lit-element.polymer-project.org/guide/properties#declare-with-decorators
   @property({ type: Object }) response: undefined | SearchEvent;
 
+  manifestpath = (location.port === "") ? "workbox-offline-demo/" : "";
+
   static get styles() {
     return css`
       #welcomeBar {
@@ -95,7 +97,7 @@ export class AppHome extends LitElement {
           ${(this.response ? this.renderResultsList() : this.renderWelcomeCard())}
         </div>
 
-        <pwa-install manifestpath="manifest.json">Install PWA Starter</pwa-install>
+        <pwa-install manifestpath="${this.manifestpath}manifest.json">Install PWA Starter</pwa-install>
       </div>
     `;
   }

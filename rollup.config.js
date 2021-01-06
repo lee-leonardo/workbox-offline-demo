@@ -40,10 +40,6 @@ export default [
           return html;
         },
       }),
-      replace({
-        'manifestpath="manifest.json"':
-          'manifestpath="workbox-offline-demo/manifest.json"',
-      }),
       terser(),
       // strip({
       //   functions: ['console.log']
