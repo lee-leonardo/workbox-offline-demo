@@ -11580,7 +11580,9 @@ let AppIndex = class AppIndex extends LitElement {
         // for more info check out the lit-element docs https://lit-element.polymer-project.org/guide/lifecycle
         var _a;
         // For more info on using the @vaadin/router check here https://vaadin.com/router
-        const router = new Router((_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('#routerOutlet'));
+        const router = new Router((_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('#routerOutlet'), {
+            baseUrl: "workbox-offline-demo"
+        });
         router.setRoutes([
             // temporarily cast to any because of a Type bug with the router
             {
@@ -11591,14 +11593,7 @@ let AppIndex = class AppIndex extends LitElement {
                 ]
             },
             {
-                path: "worbox-offline-demo",
-                animate: true,
-                children: [
-                    { path: '/', component: 'app-home' }
-                ]
-            },
-            {
-                path: "worbox-offline-demo/advanced",
+                path: "/advanced",
                 animate: true,
                 children: [
                     { path: '/', component: 'app-home' }
