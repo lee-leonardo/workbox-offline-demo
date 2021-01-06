@@ -67,6 +67,20 @@ export class AppIndex extends LitElement {
         children: [
           { path: '/', component: 'app-home' }
         ]
+      } as any),
+      ({
+        path: "worbox-offline-demo",
+        animate: true,
+        children: [
+          { path: '/', component: 'app-home' }
+        ]
+      } as any),
+      ({
+        path: "worbox-offline-demo/advanced",
+        animate: true,
+        children: [
+          { path: '/', component: 'app-home' }
+        ]
       } as any)
     ]);
   }
