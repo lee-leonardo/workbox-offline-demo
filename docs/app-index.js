@@ -8406,6 +8406,7 @@ var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, 
 let AppHome = class AppHome extends LitElement {
     constructor() {
         super();
+        this.manifestpath = (location.port === "") ? "workbox-offline-demo/" : "";
     }
     static get styles() {
         return css `
@@ -8476,7 +8477,7 @@ let AppHome = class AppHome extends LitElement {
           ${(this.response ? this.renderResultsList() : this.renderWelcomeCard())}
         </div>
 
-        <pwa-install manifestpath="manifest.json">Install PWA Starter</pwa-install>
+        <pwa-install manifestpath="${this.manifestpath}manifest.json">Install PWA Starter</pwa-install>
       </div>
     `;
     }
