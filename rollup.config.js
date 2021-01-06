@@ -21,10 +21,12 @@ export default [
       resolve(),
       html({
         transform: (html) => {
-          const path = `${packageJson.name}`;
+          const path = `${packageJson.name}/`;
           const strings = [
-            ["docs", path],
-            ["build/src/pages", path],
+            ["docs/", path],
+            ["build/src/pages/", path],
+            ["./", path],
+            ['swpath="pwabuilder', `swpath="workbox-offline-demo/pwabuilder`],
           ];
 
           for (let i = 0; i < strings.length; i++) {
@@ -77,6 +79,8 @@ export default [
           const strings = [
             ["docs", path],
             ["build/src/pages", path],
+            ["./", path],
+            ['swpath="pwabuilder', `swpath="workbox-offline-demo/pwabuilder`],
           ];
 
           for (let i = 0; i < strings.length; i++) {
